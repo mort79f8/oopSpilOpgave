@@ -10,10 +10,11 @@ namespace oopSpilOpgave
         {
             while(warrior1.Health > 0 || warrior2.Health > 0 )
             {
+                Console.Clear();
+                Display(warrior1, warrior2);
                 if (warrior1.Health > 0 && warrior2.Health > 0)
                 {
-                    warrior1.Health -= GetAttackResult(warrior1, warrior2);
-                    Console.WriteLine($"{warrior1.Name}'s health: {DisplayHealthBar(warrior1)} ");                    
+                    warrior1.Health -= GetAttackResult(warrior1, warrior2);                   
                     if (warrior1.Health <= 0)
                     {
                         Console.ForegroundColor = ConsoleColor.White;
@@ -27,10 +28,11 @@ namespace oopSpilOpgave
                 Console.WriteLine("Tryk enter for næste runde");
                 Console.ReadLine();
                 Console.WriteLine();
+                Console.Clear();
+                Display(warrior1, warrior2);
                 if (warrior1.Health > 0 && warrior2.Health > 0)
                 {
-                    warrior2.Health -= GetAttackResult(warrior2, warrior1);
-                    Console.WriteLine($"{warrior2.Name}'s health: {DisplayHealthBar(warrior2)} ");
+                    warrior2.Health -= GetAttackResult(warrior2, warrior1);                 
                     if (warrior2.Health <= 0)
                     {
                         Console.WriteLine($"{warrior2.Name} has died and {warrior1.Name} is victorius");
@@ -64,17 +66,43 @@ namespace oopSpilOpgave
 
         private static string DisplayHealthBar(Warrior warrior)
         {            
-            string healthDisplay = "";
-            int healthLeftInPercent = (warrior.Health / warrior.MaxHealth) * 100;
-            Console.WriteLine($"DEBUG: Health left in percent: {healthLeftInPercent}");
-            Console.WriteLine($"DEBUG: {warrior.Health} / {warrior.MaxHealth}: {(warrior.Health / warrior.MaxHealth) * 100}");
+            string healthDisplay = "--{";
+            double healthLeftInPercent = (warrior.Health / warrior.MaxHealth) * 100;
+
             for (int i = 0; i < Math.Ceiling((decimal)healthLeftInPercent/10); i++)
             {
                 healthDisplay += "|";
             }
 
+            var missingDisplay = healthDisplay.Length - 3;
+
+            for (int i = 0; i < 10- missingDisplay; i++)
+            {
+                healthDisplay += "-";
+            }
+
+            healthDisplay += "}--";
+            
             return healthDisplay;
         }
+
+        private static void Display(Warrior warrior1, Warrior warrior2)
+        {
+            Console.WriteLine(CreateStarLine());
+            Console.WriteLine($"\t{warrior1.Name} \t{DisplayHealthBar(warrior1)}");
+            Console.WriteLine($"\t{warrior2.Name} \t{DisplayHealthBar(warrior2)}");
+            Console.WriteLine(CreateStarLine());
+        }
         
+        private static string CreateStarLine()
+        {
+            string line = "";
+            for (int i = 0; i < 40; i++)
+            {
+                line += "*";
+            }
+
+            return line;
+        }
     }
 }
