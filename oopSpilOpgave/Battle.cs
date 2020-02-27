@@ -18,14 +18,6 @@ namespace oopSpilOpgave
                 if (warrior1.Health > 0 && warrior2.Health > 0)
                 {
                     warriors[0].Health -= GetAttackResult(warriors[0], warriors[1]);
-                    //if (warriors[0].Health <= 0)
-                    //{
-                    //    Console.ForegroundColor = ConsoleColor.White;
-                    //    Console.WriteLine($"{warriors[0].Name} has died and {warriors[1].Name} is victorius");
-                    //    Console.WriteLine();
-                    //    Console.WriteLine("GAME OVER");
-                    //    break;
-                    //}
                     Console.WriteLine();
                     Console.WriteLine("Tryk Enter for næste runde");
                     Console.ReadLine();
@@ -36,6 +28,7 @@ namespace oopSpilOpgave
                     Console.WriteLine($"{warriors[0].Name} has died and {warriors[1].Name} is victorius");
                     Console.WriteLine();
                     Console.WriteLine("GAME OVER");
+                    Console.ReadLine();
                     break;
                 }
 
