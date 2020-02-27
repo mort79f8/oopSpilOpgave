@@ -15,52 +15,43 @@ namespace oopSpilOpgave
             {
                 Console.Clear();
                 Display(warrior1, warrior2);
-                Console.ReadLine();
+                if (warrior1.Health > 0 && warrior2.Health > 0)
+                {
+                    warriors[0].Health -= GetAttackResult(warriors[0], warriors[1]);
+                    //if (warriors[0].Health <= 0)
+                    //{
+                    //    Console.ForegroundColor = ConsoleColor.White;
+                    //    Console.WriteLine($"{warriors[0].Name} has died and {warriors[1].Name} is victorius");
+                    //    Console.WriteLine();
+                    //    Console.WriteLine("GAME OVER");
+                    //    break;
+                    //}
+                    Console.WriteLine();
+                    Console.WriteLine("Tryk Enter for næste runde");
+                    Console.ReadLine();
+                }
+                else if (warriors[0].Health <= 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine($"{warriors[0].Name} has died and {warriors[1].Name} is victorius");
+                    Console.WriteLine();
+                    Console.WriteLine("GAME OVER");
+                    break;
+                }
+
+                warriors.Reverse();
             }
 
-            //while(warrior1.Health > 0 || warrior2.Health > 0 )
-            //{
-            //    Console.Clear();
-            //    Display(warrior1, warrior2);
-            //    if (warrior1.Health > 0 && warrior2.Health > 0)
-            //    {
-            //        warrior1.Health -= GetAttackResult(warrior1, warrior2);                   
-            //        if (warrior1.Health <= 0)
-            //        {
-            //            Console.ForegroundColor = ConsoleColor.White;
-            //            Console.WriteLine($"{warrior1.Name} has died and {warrior2.Name} is victorius");
-            //            Console.WriteLine();
-            //            Console.WriteLine("GAME OVER");
-            //            break;
-            //        }
-            //    }
-            //    Console.WriteLine();
-            //    Console.WriteLine("Tryk enter for næste runde");
-            //    Console.ReadLine();
-            //    Console.WriteLine();
-            //    Console.Clear();
-            //    Display(warrior1, warrior2);
-            //    if (warrior1.Health > 0 && warrior2.Health > 0)
-            //    {
-            //        warrior2.Health -= GetAttackResult(warrior2, warrior1);                 
-            //        if (warrior2.Health <= 0)
-            //        {
-            //            Console.WriteLine($"{warrior2.Name} has died and {warrior1.Name} is victorius");
-            //            Console.WriteLine();
-            //            Console.WriteLine("GAME OVER");
-            //            break;
-            //        }
-            //    }
-            //    Console.WriteLine();
-            //    Console.WriteLine("Tryk enter for næste runde");
-            //    Console.ReadLine();
-            //}
         }
 
         private static int GetAttackResult(Warrior warriorA, Warrior warriorB)
         {
             int attackingWarriorAttackResult = warriorB.Attack();
             int defendingWarriorDefendResult = warriorA.Block();
+            if (defendingWarriorDefendResult > attackingWarriorAttackResult)
+            {
+                defendingWarriorDefendResult = attackingWarriorAttackResult;
+            }
             int damageDealt =  attackingWarriorAttackResult - defendingWarriorDefendResult;
             if (damageDealt < 0)
             {
@@ -69,7 +60,6 @@ namespace oopSpilOpgave
 
             Console.WriteLine($"{warriorB.Name} deals {attackingWarriorAttackResult} damage, {warriorA.Name} block {defendingWarriorDefendResult} of it.");
             Console.WriteLine($"{warriorB.Name} Attacks {warriorA.Name} and deals {damageDealt} damage");
-            Console.WriteLine($"{warriorA.Name} has {warriorA.Health - damageDealt}");
             Console.WriteLine();
             return damageDealt;
         }
@@ -98,10 +88,9 @@ namespace oopSpilOpgave
 
         private static void Display(Warrior warrior1, Warrior warrior2)
         {
-            string text1 = $"{warrior1.Name} \t{DisplayHealthBar(warrior1)}";
-            string text2 = $"{warrior2.Name} \t{DisplayHealthBar(warrior2)}";
-            //Console.WriteLine(CreateStarLine());
-            Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (CreateStarLine().Length / 2)) + "}", CreateStarLine()));
+            string text1 = $"{warrior1.Name} \t{DisplayHealthBar(warrior1)} {warrior1.Health}/{warrior1.MaxHealth}";
+            string text2 = $"{warrior2.Name} \t{DisplayHealthBar(warrior2)} {warrior2.Health}/{warrior2.MaxHealth}";
+            Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (CreateStarLine().Length / 2)) + "}", CreateStarLine()), Console.ForegroundColor = ConsoleColor.Green);
             Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (text1.Length / 2)) +"}", text1));
             Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (text2.Length / 2)) + "}", text2));
             Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (CreateStarLine().Length / 2)) + "}", CreateStarLine()));
